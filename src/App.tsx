@@ -10,12 +10,20 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import '@rainbow-me/rainbowkit/styles.css';
 
-const queryClient = new QueryClient();
+// Create QueryClient with proper configuration
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 const App = () => (
-  <WagmiProvider config={config}>
-    <RainbowKitProvider>
-      <QueryClientProvider client={queryClient}>
+  <QueryClientProvider client={queryClient}>
+    <WagmiProvider config={config}>
+      <RainbowKitProvider>
         <TooltipProvider>
           <Toaster />
           <Sonner />
@@ -27,9 +35,9 @@ const App = () => (
             </Routes>
           </BrowserRouter>
         </TooltipProvider>
-      </QueryClientProvider>
-    </RainbowKitProvider>
-  </WagmiProvider>
+      </RainbowKitProvider>
+    </WagmiProvider>
+  </QueryClientProvider>
 );
 
 export default App;

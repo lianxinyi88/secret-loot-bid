@@ -1,12 +1,8 @@
 import { useState } from 'react';
-import { useAccount, useContractWrite, useWaitForTransaction } from 'wagmi';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Lock, Eye, EyeOff } from 'lucide-react';
-import { SECRET_LOOT_BID_ABI } from '@/lib/contract-abi';
-
-const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS || '0x0000000000000000000000000000000000000000';
 
 interface EncryptedBidFormProps {
   boxId: number;
@@ -17,51 +13,28 @@ export default function EncryptedBidForm({ boxId, onBidPlaced }: EncryptedBidFor
   const [bidAmount, setBidAmount] = useState('');
   const [isEncrypted, setIsEncrypted] = useState(true);
   const [commitment, setCommitment] = useState('');
-  const { address } = useAccount();
-
-  // Contract write hook for placing encrypted bid
-  const { write: placeBid, data: bidData, isLoading: isBidLoading } = useContractWrite({
-    address: CONTRACT_ADDRESS as `0x${string}`,
-    abi: SECRET_LOOT_BID_ABI,
-    functionName: 'placeBid',
-    onSuccess: (data) => {
-      console.log('Bid placed successfully:', data);
-      if (onBidPlaced) {
-        onBidPlaced(Number(data.hash));
-      }
-    },
-    onError: (error) => {
-      console.error('Bid placement failed:', error);
-    }
-  });
-
-  // Wait for transaction confirmation
-  const { isLoading: isConfirming } = useWaitForTransaction({
-    hash: bidData?.hash,
-    onSuccess: (data) => {
-      console.log('Transaction confirmed:', data);
-    }
-  });
 
   const handleEncryptBid = async () => {
-    if (!bidAmount || !address) return;
+    if (!bidAmount) return;
 
     try {
       // In a real implementation, this would use FHE encryption
       // For now, we'll simulate the encryption process
       const encryptedAmount = await simulateFHEEncryption(bidAmount);
-      const commitmentHash = await generateCommitment(bidAmount, address);
+      const commitmentHash = await generateCommitment(bidAmount);
       
       setCommitment(commitmentHash);
       
-      // Place the encrypted bid
-      placeBid({
-        args: [
-          BigInt(boxId),
-          encryptedAmount, // This would be the actual FHE encrypted data
-          '0x' // This would be the FHE proof
-        ]
+      // Simulate bid placement
+      console.log('Encrypted bid placed:', {
+        boxId,
+        encryptedAmount,
+        commitment: commitmentHash
       });
+      
+      if (onBidPlaced) {
+        onBidPlaced(Math.floor(Math.random() * 1000));
+      }
     } catch (error) {
       console.error('Encryption failed:', error);
     }
@@ -145,17 +118,11 @@ export default function EncryptedBidForm({ boxId, onBidPlaced }: EncryptedBidFor
 
         <Button
           onClick={handleEncryptBid}
-          disabled={!bidAmount || isBidLoading || isConfirming}
+          disabled={!bidAmount}
           className="w-full"
         >
-          {isBidLoading || isConfirming ? (
-            'Processing...'
-          ) : (
-            <>
-              <Lock className="w-4 h-4 mr-2" />
-              Place Encrypted Bid
-            </>
-          )}
+          <Lock className="w-4 h-4 mr-2" />
+          Place Encrypted Bid
         </Button>
 
         {isEncrypted && (
