@@ -36,10 +36,10 @@ Add the following environment variables in the Vercel dashboard:
 
 ```
 NEXT_PUBLIC_CHAIN_ID=11155111
-NEXT_PUBLIC_RPC_URL=https://sepolia.infura.io/v3/b18fb7e6ca7045ac83c41157ab93f990
-NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID=2ec9743d0d0cd7fb94dee1a7e6d33475
-NEXT_PUBLIC_INFURA_API_KEY=b18fb7e6ca7045ac83c41157ab93f990
-NEXT_PUBLIC_CONTRACT_ADDRESS=0x0000000000000000000000000000000000000000
+NEXT_PUBLIC_RPC_URL=https://sepolia.infura.io/v3/YOUR_INFURA_KEY
+NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID=YOUR_WALLETCONNECT_ID
+NEXT_PUBLIC_INFURA_API_KEY=YOUR_INFURA_KEY
+NEXT_PUBLIC_CONTRACT_ADDRESS=0x... # Your deployed contract address
 ```
 
 **Important**: Replace `NEXT_PUBLIC_CONTRACT_ADDRESS` with your actual deployed contract address.
@@ -79,9 +79,9 @@ After deploying your smart contract:
 | Variable | Description | Example Value |
 |----------|-------------|---------------|
 | `NEXT_PUBLIC_CHAIN_ID` | Ethereum chain ID | `11155111` (Sepolia) |
-| `NEXT_PUBLIC_RPC_URL` | RPC endpoint URL | `https://sepolia.infura.io/v3/...` |
-| `NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID` | WalletConnect project ID | `2ec9743d0d0cd7fb94dee1a7e6d33475` |
-| `NEXT_PUBLIC_INFURA_API_KEY` | Infura API key | `b18fb7e6ca7045ac83c41157ab93f990` |
+| `NEXT_PUBLIC_RPC_URL` | RPC endpoint URL | `https://sepolia.infura.io/v3/YOUR_KEY` |
+| `NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID` | WalletConnect project ID | `YOUR_WALLETCONNECT_ID` |
+| `NEXT_PUBLIC_INFURA_API_KEY` | Infura API key | `YOUR_INFURA_KEY` |
 | `NEXT_PUBLIC_CONTRACT_ADDRESS` | Deployed contract address | `0x...` |
 
 ## Troubleshooting
